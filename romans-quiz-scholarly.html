@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Romans Scholarly Quiz (NIV)</title>
+<style>
+body { font-family: Arial, sans-serif; padding: 20px; max-width: 900px; margin: auto; }
+h1 { margin-bottom: 6px; }
+.question { margin-bottom: 18px; padding: 12px; border-radius: 8px; border: 1px solid #ddd; }
+.question p { font-weight: 700; margin-top: 0; }
+.correct { background: #d4edda; }
+.incorrect { background: #f8d7da; }
+.verse { font-size: 13px; font-style: italic; color: #333; margin-top: 6px; display: block; }
+.center { text-align: center; margin-top: 18px; }
+button { padding: 10px 14px; font-size: 16px; }
+#result { font-size: 20px; font-weight: 700; margin-top: 20px; white-space: pre-line; }
+</style>
+</head>
+<body>
+
+<h1>Romans Scholarly Quiz</h1>
+<p><em>40 advanced questions from Romans in NIV wording and themes.</em></p>
+
+<form id="quizForm"></form>
+<div class="center"><button type="button" onclick="submitQuiz()">Submit</button></div>
+<div id="result"></div>
+<div class="center" id="retakeContainer"></div>
+
+<script>
+const questions = [
+{q:"Paul says he received grace and apostleship to call the Gentiles to what?",options:["Law keeping","Obedience that comes from faith","Temple worship","Political peace"],answer:1,ref:"Romans 1:5",verse:"Through him we received grace and apostleship to call all the Gentiles to the obedience that comes from faith for his name's sake."},
+{q:"In the gospel, God's righteousness is revealed as faith from first to what?",options:["Law","Last","Glory","Works"],answer:1,ref:"Romans 1:17",verse:"For in the gospel the righteousness of God is revealed-a righteousness that is by faith from first to last..."},
+{q:"God judges people's secrets through Jesus Christ according to what?",options:["Moses' law only","My gospel","Human tradition","Civil law"],answer:1,ref:"Romans 2:16",verse:"This will take place on the day when God judges people's secrets through Jesus Christ, as my gospel declares."},
+{q:"Those who persist in doing good and seek glory, honor, and immortality receive what?",options:["Peace only","Eternal life","Earthly wealth","Long life only"],answer:1,ref:"Romans 2:7",verse:"To those who by persistence in doing good seek glory, honor and immortality, he will give eternal life."},
+{q:"God presented Christ as a sacrifice of atonement to be just and also what?",options:["The condemner","The one who justifies","The lawgiver","The avenger"],answer:1,ref:"Romans 3:26",verse:"...so as to be just and the one who justifies those who have faith in Jesus."},
+{q:"Boasting is excluded because of what kind of law?",options:["Law of works","Law of sacrifice","Law that requires faith","Law of circumcision"],answer:2,ref:"Romans 3:27",verse:"...Because of what law? The law that requires works? No, because of the law that requires faith."},
+{q:"Abraham's circumcision is called what?",options:["A saving act","A sign and seal","A final command","A replacement for faith"],answer:1,ref:"Romans 4:11",verse:"And he received circumcision as a sign, a seal of the righteousness that he had by faith while he was still uncircumcised."},
+{q:"The promise comes by faith so that it may be by what?",options:["Law","Works","Grace","Merit"],answer:2,ref:"Romans 4:16",verse:"Therefore, the promise comes by faith, so that it may be by grace..."},
+{q:"Being justified by faith, we now have what with God?",options:["Power","Peace","Honor","Riches"],answer:1,ref:"Romans 5:1",verse:"Therefore, since we have been justified through faith, we have peace with God through our Lord Jesus Christ."},
+{q:"While we were still sinners, what did Christ do?",options:["Taught us","Died for us","Judged us","Healed us"],answer:1,ref:"Romans 5:8",verse:"But God demonstrates his own love for us in this: While we were still sinners, Christ died for us."},
+{q:"Those who receive grace and righteousness will reign in life through whom?",options:["Adam","Moses","Jesus Christ","The church"],answer:2,ref:"Romans 5:17",verse:"...those who receive God's abundant provision of grace and of the gift of righteousness reign in life through the one man, Jesus Christ!"},
+{q:"Believers are united with Christ in death and also in what?",options:["His rule","A resurrection like his","His prophecy","His miracles"],answer:1,ref:"Romans 6:5",verse:"...we will certainly also be united with him in a resurrection like his."},
+{q:"Offer every part of yourself to God as what?",options:["An argument","An instrument of righteousness","A ritual","A debt"],answer:1,ref:"Romans 6:13",verse:"...offer every part of yourself to him as an instrument of righteousness."},
+{q:"Being slaves of God leads to holiness and ends in what?",options:["Prosperity","Eternal life","Social honor","Wisdom"],answer:1,ref:"Romans 6:22",verse:"...the benefit you reap leads to holiness, and the result is eternal life."},
+{q:"The wages of sin is what?",options:["Fear","Death","Shame","Loss"],answer:1,ref:"Romans 6:23",verse:"For the wages of sin is death, but the gift of God is eternal life in Christ Jesus our Lord."},
+{q:"Believers died to the law through Christ so that they may do what?",options:["Return to old ways","Bear fruit for God","Avoid all suffering","Judge others"],answer:1,ref:"Romans 7:4",verse:"...in order that we might bear fruit for God."},
+{q:"Another law wages war against the law of Paul's what?",options:["Body","Mind","People","Nation"],answer:1,ref:"Romans 7:23",verse:"...waging war against the law of my mind..."},
+{q:"Who rescues from this body subject to death?",options:["The law","Human effort","God through Jesus Christ","Angels"],answer:2,ref:"Romans 7:24-25",verse:"What a wretched man I am! Who will rescue me... Thanks be to God, who delivers me through Jesus Christ our Lord!"},
+{q:"There is now no condemnation for whom?",options:["All people","Those in Christ Jesus","Only apostles","Only Israel"],answer:1,ref:"Romans 8:1",verse:"Therefore, there is now no condemnation for those who are in Christ Jesus."},
+{q:"The mind governed by the Spirit is what?",options:["Knowledge and strength","Life and peace","Power and honor","Wisdom and fear"],answer:1,ref:"Romans 8:6",verse:"The mind governed by the flesh is death, but the mind governed by the Spirit is life and peace."},
+{q:"What does the Spirit help us in?",options:["Planning","Our weakness","Argument","Memory"],answer:1,ref:"Romans 8:26",verse:"In the same way, the Spirit helps us in our weakness..."},
+{q:"What can separate us from the love of God in Christ?",options:["Trouble","Death","Nothing in all creation","Persecution only"],answer:2,ref:"Romans 8:39",verse:"...nor anything else in all creation, will be able to separate us from the love of God that is in Christ Jesus our Lord."},
+{q:"Not all who are descended from Israel are what?",options:["Believers","Israel","Jews","Saved"],answer:1,ref:"Romans 9:6",verse:"For not all who are descended from Israel are Israel."},
+{q:"God's mercy depends not on human desire or effort but on what?",options:["Birth","Work","God's mercy","Law"],answer:2,ref:"Romans 9:16",verse:"It does not, therefore, depend on human desire or effort, but on God's mercy."},
+{q:"The Gentiles obtained righteousness by what?",options:["Works","Faith","Birthright","Law"],answer:1,ref:"Romans 9:30",verse:"...the Gentiles... have obtained it, a righteousness that is by faith."},
+{q:"Israel pursued righteousness as if by what and stumbled?",options:["Faith","Works","Hope","Grace"],answer:1,ref:"Romans 9:32",verse:"...they pursued it not by faith but as if it were by works. They stumbled..."},
+{q:"Christ is the culmination of the law for righteousness to whom?",options:["Jews only","Priests only","Everyone who believes","Only the strong"],answer:2,ref:"Romans 10:4",verse:"Christ is the culmination of the law so that there may be righteousness for everyone who believes."},
+{q:"If you confess 'Jesus is Lord' and believe God raised him, you will be what?",options:["Honored","Saved","Rewarded","Healed"],answer:1,ref:"Romans 10:9",verse:"If you declare with your mouth, 'Jesus is Lord,' and believe in your heart that God raised him from the dead, you will be saved."},
+{q:"Faith comes from hearing what?",options:["Human wisdom","The message about Christ","Tradition","The law"],answer:1,ref:"Romans 10:17",verse:"Consequently, faith comes from hearing the message, and the message is heard through the word about Christ."},
+{q:"At the present time, there is a remnant chosen by what?",options:["Merit","Grace","Law","Nation"],answer:1,ref:"Romans 11:5",verse:"So too, at the present time there is a remnant chosen by grace."},
+{q:"You do not support the root; what supports you?",options:["The law","The root","The branch","The nation"],answer:1,ref:"Romans 11:18",verse:"You do not support the root, but the root supports you."},
+{q:"God bound everyone over to disobedience so he may do what?",options:["Judge all","Have mercy on all","Separate nations","Test all"],answer:1,ref:"Romans 11:32",verse:"For God has bound everyone over to disobedience so that he may have mercy on them all."},
+{q:"In view of God's mercy, believers should offer their bodies as what?",options:["A burnt offering","A living sacrifice","A ritual sign","A vow"],answer:1,ref:"Romans 12:1",verse:"...offer your bodies as a living sacrifice, holy and pleasing to God-this is your true and proper worship."},
+{q:"Do not conform to this world, but be transformed by renewing what?",options:["Your habits","Your mind","Your schedule","Your family"],answer:1,ref:"Romans 12:2",verse:"...be transformed by the renewing of your mind."},
+{q:"The continuing debt believers should keep is what?",options:["Taxes","Love one another","Temple gifts","Public service"],answer:1,ref:"Romans 13:8",verse:"Let no debt remain outstanding, except the continuing debt to love one another..."},
+{q:"Love does no harm to a neighbor. So love fulfills what?",options:["Faith","The law","Hope","Mercy"],answer:1,ref:"Romans 13:10",verse:"Love does no harm to a neighbor. Therefore love is the fulfillment of the law."},
+{q:"The kingdom of God is righteousness, peace, and joy in whom?",options:["The church","The Holy Spirit","The law","The world"],answer:1,ref:"Romans 14:17",verse:"For the kingdom of God is not a matter of eating and drinking, but of righteousness, peace and joy in the Holy Spirit."},
+{q:"Everything that does not come from faith is what?",options:["Weakness","Sin","Doubt","Loss"],answer:1,ref:"Romans 14:23",verse:"...everything that does not come from faith is sin."},
+{q:"Accept one another as Christ accepted you to bring what to God?",options:["Offerings","Praise","Fear","Service"],answer:1,ref:"Romans 15:7",verse:"Accept one another, then, just as Christ accepted you, in order to bring praise to God."},
+{q:"Watch out for those who cause divisions. What should believers do?",options:["Debate them","Keep away from them","Honor them","Ignore them"],answer:1,ref:"Romans 16:17",verse:"...watch out for those who cause divisions... Keep away from them."}
+];
+
+const form = document.getElementById("quizForm");
+questions.forEach((item, index) => {
+  const div = document.createElement("div");
+  div.classList.add("question");
+  div.id = `qbox${index}`;
+  let html = `<p>${index + 1}. ${item.q}</p>`;
+  item.options.forEach((opt, i) => {
+    html += `<label><input type="radio" name="q${index}" value="${i}"> ${opt}</label><br>`;
+  });
+  div.innerHTML = html;
+  form.appendChild(div);
+});
+
+function submitQuiz() {
+  let score = 0;
+  const total = questions.length;
+
+  questions.forEach((q, i) => {
+    const selected = document.querySelector(`input[name=q${i}]:checked`);
+    const box = document.getElementById(`qbox${i}`);
+    if (!selected) return;
+    const val = parseInt(selected.value, 10);
+
+    if (val === q.answer) {
+      score++;
+      box.classList.add("correct");
+    } else {
+      box.classList.add("incorrect");
+      const info = document.createElement("div");
+      info.innerHTML = `<b>Correct Answer:</b> ${q.options[q.answer]}<span class="verse">${q.ref} - ${q.verse}</span>`;
+      box.appendChild(info);
+    }
+    document.querySelectorAll(`input[name=q${i}]`).forEach(inp => inp.disabled = true);
+  });
+
+  const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+  let message = `Your Score: ${score} / ${total} (${pct}%)\n\n`;
+  if (score >= 34) message += "Scholarly mastery. Outstanding command of Romans.";
+  else if (score >= 27) message += "Strong exegetical grasp. You're reading Romans carefully.";
+  else if (score >= 20) message += "Good progress. Revisit argument flow in chapters 5-11 and 14-16.";
+  else message += "Keep studying. Focus on Paul's logic and quotations across the letter.";
+
+  document.getElementById("result").innerText = message;
+  document.getElementById("retakeContainer").innerHTML = `<button onclick="location.reload()">Retake Quiz</button>`;
+}
+</script>
+
+</body>
+</html>
+
