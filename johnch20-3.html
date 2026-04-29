@@ -6,28 +6,28 @@
 
 <style>
   body {
-    font-family: Calibri, Arial, sans-serif;
-    max-width: 850px;
-    margin: auto;
-    padding: 20px;
-    line-height: 1.6;
-    background: #fafafa;
-  }
+  font-family: Calibri, Arial, sans-serif;
+  max-width: 850px;
+  margin: auto;
+  padding: 20px;
+  line-height: 1.6;
+  background: #fafafa;
+}
 
-  h1 {
-    text-align: center;
-  }
+h1 {
+  text-align: center;
+}
 
-  .question {
-    margin-bottom: 30px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #ddd;
-  }
+.question {
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
 
-  .option {
+/* Clean options (no boxes) */
+.option {
   display: block;
   margin: 6px 0;
-  padding: 4px 0;
   cursor: pointer;
 }
 
@@ -35,47 +35,38 @@
   margin-right: 8px;
 }
 
-.option:hover {
-  background-color: #f9f9f9;
+/* Highlight only text, not layout */
+.correct {
+  color: green;
+  font-weight: bold;
 }
 
-  .option:hover {
-    background-color: #f1f1f1;
-  }
+.incorrect {
+  color: red;
+}
 
-  .option input {
-    margin-right: 8px;
-  }
+/* Explanation box stays */
+.explanation {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #eef5ff;
+  border-left: 4px solid #4a90e2;
+  border-radius: 5px;
+  font-size: 14px;
+}
 
-  .correct {
-    background-color: #d4edda;
-  }
+button {
+  padding: 10px 18px;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: pointer;
+}
 
-  .incorrect {
-    background-color: #f8d7da;
-  }
-
-  .explanation {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #eef5ff;
-    border-left: 4px solid #4a90e2;
-    border-radius: 5px;
-    font-size: 14px;
-  }
-
-  button {
-    padding: 10px 18px;
-    font-size: 16px;
-    margin-top: 20px;
-    cursor: pointer;
-  }
-
-  .result {
-    margin-top: 25px;
-    font-weight: bold;
-    font-size: 18px;
-  }
+.result {
+  margin-top: 25px;
+  font-weight: bold;
+  font-size: 18px;
+}
 </style>
 </head>
 
